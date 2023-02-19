@@ -101,10 +101,10 @@ section {
   display: block;
 }
 body {
+  overflow: auto;
   line-height: 1;
   background-color: black;
   color: rgb(231, 240, 240);
-
 }
 
 ol,
@@ -122,6 +122,7 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -144,6 +145,10 @@ table {
 
 .flex-column {
   flex-direction: column;
+}
+
+.wrap {
+  flex-wrap: wrap;
 }
 
 .p-1 {
@@ -187,6 +192,9 @@ table {
   height: 80px;
   flex-wrap: nowrap;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+
 }
 
 .header #marvelLogo {
@@ -199,14 +207,15 @@ table {
   margin-right: 1rem;
 }
 
-.header #searchBar{
+.header #searchBar {
   height: 20px;
-  margin-left: 2rem;
+  margin: 0 2rem;
 }
 
-#comicsLink, #favoritesLink{
+#comicsLink,
+#favoritesLink {
   text-decoration: none;
-  background-color:red;
+  background-color: red;
   color: black;
   font-weight: bold;
   border-radius: 5px;
@@ -214,3 +223,97 @@ table {
   margin-left: 2rem;
 }
 
+.num-thumb {
+  position: absolute;
+  background-color: #ff0000;
+  color: white;
+  border-radius: 2px;
+  bottom: 20px;
+  width: 30px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+}
+
+.comicsContainer, .charactersContainer {
+  justify-content: space-around;
+  align-items: space-around;
+}
+
+.characterCard,
+.comicsCard {
+  margin: 0.5rem;
+  border-radius: 2%;
+  background-color: rgb(45, 207, 4);
+  width: 170px;
+  padding: 1rem;
+  
+}
+
+.characterCard > * {
+  padding: 0.5rem;
+}
+
+.comicsCard > * {
+  padding: 0.5rem;
+}
+.description {
+  position: relative;
+  display: inline-block;
+}
+
+.description .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: blueviolet;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 105%;
+  left: -5px;
+}
+
+.description:hover .tooltiptext {
+  visibility: visible;
+}
+
+.characterCard:hover,
+.comicsCard:hover {
+  cursor: pointer;
+}
+
+.characterCard:hover,
+.comicsCard:hover {
+  cursor: pointer;
+}
+
+.characterCard p {
+  text-align: center;
+}
+
+.comicsCard p {
+  text-align: center;
+}
+
+.comicsCard .title {
+  text-align: center;
+  font-weight: bold;
+  color: blue;
+}
+
+.characterCard .title {
+  text-align: center;
+  font-weight: bold;
+  color: blue;
+}
+
+.loading {
+  text-align: center;
+}
