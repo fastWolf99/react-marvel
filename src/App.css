@@ -280,17 +280,15 @@ table {
   left: -5px;
 }
 
+.description:hover  {
+  cursor: progress;
+}
+
 .description:hover .tooltiptext {
   visibility: visible;
 }
 
-.characterCard:hover,
-.comicsCard:hover {
-  cursor: pointer;
-}
-
-.characterCard:hover,
-.comicsCard:hover {
+.characterCard:hover {
   cursor: pointer;
 }
 
@@ -316,4 +314,8 @@ table {
 
 .loading {
   text-align: center;
+}
+
+#addFavorite:hover{
+  cursor: pointer;
 }

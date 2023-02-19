@@ -1,4 +1,6 @@
 import axios from "axios";
+import Paginate from "../components/Paginate";
+import Comic from "../components/Comic";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -6,53 +8,68 @@ const Comics = ({ apiBackEnd, filters }) => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
+  const [paginations, setPaginations] = useState(null);
+  const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
     const fetchDataApi = async () => {
-      let filters = "";
+      let copyFilters = "";
+      let numberPages = 0;
+
       try {
-        if (location?.state?.characterId) {
-          filters = location.state.characterId;
+        if (location?.state?.comicsId) {
+          copyFilters = location.state.comicsId;
 
-          const { data } = await axios.get(`${apiBackEnd}comics/${filters}`);
+          const { data } = await axios.get(
+            `${apiBackEnd}comics/${copyFilters}`
+          );
 
-          setData(data.message.comics);
+          setData({ message: { results: data.message.comics } });
+
+          numberPages = 1;
+          setPaginations([...Array(numberPages).keys()]);
         } else {
-          const { data } = await axios.get(`${apiBackEnd}comics/${filters}`);
+          let copyFilters = `?limit=${filters.limit}`;
 
-          setData(data.message.results);
+          if (pageNum > 1) {
+            copyFilters += `&skip=${(pageNum - 1) * filters.limit}`;
+          }
+
+          if (filters?.title) {
+            copyFilters += `&title=${filters.title}`;
+          }
+
+          const { data } = await axios.get(`${apiBackEnd}comics${copyFilters}`);
+
+          setData(data);
+          numberPages = Math.ceil(data.message.count / data.message.limit);
+
+          setPaginations([...Array(numberPages).keys()]);
         }
 
         setIsLoading(false);
       } catch (error) {}
     };
     fetchDataApi();
-  }, []);
-
-  console.log(data);
+  }, [filters, pageNum]);
 
   return isLoading ? (
-    <div className="comicsContainer">
-      <p className="loading">Chargement..</p>
-    </div>
+    <main>
+      <div className="comicsContainer">
+        <p className="loading">Chargement..</p>
+      </div>
+    </main>
   ) : (
-    <div className="comicsContainer d-flex wrap">
-      {data.map((value, key) => {
-        return (
-          <div key={key} className="comicsCard">
-            <p className="title">{value.title}</p>
-            <p className="description">
-              {value.description && value.description.slice(0, 30)}...
-              <span class="tooltiptext">{value.description}</span>
-            </p>
-            <img
-              alt={value.name}
-              src={`${value.thumbnail.path}/portrait_xlarge.${value.thumbnail.extension}`}
-            />
-          </div>
-        );
-      })}
-    </div>
+    <main>
+      <Comic data={data}></Comic>
+      <div className="paginations d-flex justify-center">
+        <Paginate
+          items={paginations}
+          pageNum={pageNum}
+          setPageNum={setPageNum}
+        ></Paginate>
+      </div>
+    </main>
   );
 };
 
