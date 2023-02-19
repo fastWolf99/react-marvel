@@ -1,32 +1,53 @@
 import Cookies from "js-cookie";
-import Comic from "../components/Comic";
+import Character from "../components/Character";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const Favorites = ({ apiBackEnd }) => {
-  const data = Object.values(Cookies.get());
-  const [dataFormated, setDataFormated] = useState([]);
+  const data = Object.entries(Cookies.get());
+  const [dataFormatedCharacters, setDataFormatedCharacters] = useState([]);
 
   useEffect(() => {
-    const fetchFavorites = () => {
-      data.forEach(async (element) => {
-        try {
-          const { data } = await axios.get(`${apiBackEnd}comics/${element}`);
+    const fetchFavorites = async () => {
+      const arrayCallCharacters = [];
+      data
+        .filter((element) => element[0].includes("characters"))
+        .forEach(async ([key, element]) => {
+          arrayCallCharacters.push(
+            axios.get(`${apiBackEnd}character/${element}`)
+          );
+        });
 
-          setDataFormated((current) => [...current, data.message]);
-        } catch (error) {}
+      const arrayCallComics = data.map((element) => {
+        if (element[0].includes("comics")) {
+          return element[1];
+        }
       });
+
+      if (arrayCallCharacters.length) {
+        try {
+          const fetchCharacters = async () => {
+            let results = await Promise.all([...arrayCallCharacters]);
+
+            setDataFormatedCharacters(
+              results.map((element) => element.data.message)
+            );
+          };
+
+          fetchCharacters();
+        } catch (error) {}
+      }
     };
+
     fetchFavorites();
   }, []);
 
   return (
     <main>
-      {dataFormated.length ? (
-        <Comic data={{ message: { results: dataFormated } }}></Comic>
-      ) : (
-        <p>Aucun favoris</p>
-      )}
+      <Character
+        addFavorite={false}
+        data={{ results: dataFormatedCharacters }}
+      ></Character>
     </main>
   );
 };
