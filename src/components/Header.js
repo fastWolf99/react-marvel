@@ -9,7 +9,7 @@ const Header = ({ filters, setFilters }) => {
   return (
     <header className="header d-flex aligns-center">
       <Link id="charactersLink" to="/">
-        <img id="marvelLogo" src={marvelLogo} />
+        <img id="marvelLogo" alt="marvelLogo" src={marvelLogo} />
       </Link>
       <input
         id="searchBar"

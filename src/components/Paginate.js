@@ -30,22 +30,21 @@ const Paginate = ({ items, pageNum, setPageNum }) => {
               pageNum === items.length ? pageNum - 29 : pageNum - 1,
               pageNum === items.length ? pageNum - 1 : pageNum + 29
             )
+            .filter((value) => value !== items.length)
             .map((value, key) => {
-              if (value !== items.length) {
-                return (
-                  <button
-                    style={{
-                      backgroundColor: pageNum === value + 1 ? "red" : "",
-                    }}
-                    key={key}
-                    onClick={() => {
-                      setPageNum(value + 1);
-                    }}
-                  >
-                    {value + 1}
-                  </button>
-                );
-              }
+              return (
+                <button
+                  style={{
+                    backgroundColor: pageNum === value + 1 ? "red" : "",
+                  }}
+                  key={key}
+                  onClick={() => {
+                    setPageNum(value + 1);
+                  }}
+                >
+                  {value + 1}
+                </button>
+              );
             })}
 
           <button disabled>...</button>

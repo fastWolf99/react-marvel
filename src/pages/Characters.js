@@ -33,7 +33,7 @@ const Characters = ({ apiBackEnd, filters }) => {
       } catch (error) {}
     };
     fetchDataApi();
-  }, [filters, pageNum]);
+  }, [filters, pageNum, apiBackEnd]);
 
   return isLoading ? (
     <main>

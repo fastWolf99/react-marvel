@@ -51,7 +51,7 @@ const Comics = ({ apiBackEnd, filters }) => {
       } catch (error) {}
     };
     fetchDataApi();
-  }, [filters, pageNum]);
+  }, [filters, pageNum, apiBackEnd, location?.state?.comicsId]);
 
   return isLoading ? (
     <main>

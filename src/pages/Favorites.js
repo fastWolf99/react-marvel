@@ -18,19 +18,13 @@ const Favorites = ({ apiBackEnd }) => {
           );
         });
 
-      const arrayCallComics = data.map((element) => {
-        if (element[0].includes("comics")) {
-          return element[1];
-        }
-      });
-
       if (arrayCallCharacters.length) {
         try {
           const fetchCharacters = async () => {
             let results = await Promise.all([...arrayCallCharacters]);
 
             setDataFormatedCharacters(
-              results.map((element) => element.data.message)
+              results.map(element => element.data.message)
             );
           };
 
@@ -40,7 +34,7 @@ const Favorites = ({ apiBackEnd }) => {
     };
 
     fetchFavorites();
-  }, []);
+  }, [data, apiBackEnd]);
 
   return (
     <main>
