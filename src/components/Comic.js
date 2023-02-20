@@ -17,7 +17,6 @@ const Comic = ({ data }) => {
               alt={value.name}
               src={`${value.thumbnail.path}/portrait_xlarge.${value.thumbnail.extension}`}
             />
-            <FavoriteAdd value={value} type="comics"></FavoriteAdd>
           </div>
         );
       })}
